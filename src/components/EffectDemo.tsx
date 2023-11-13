@@ -5,6 +5,7 @@ interface IEffectProps {
 }
 
 export const EffectDemo: React.FC<IEffectProps> = ({ value }) => {
+  const [text, setText] = useState<string>("");
   console.log("Redraw");
   useEffect(() => {
     console.log("always after component redraw");
@@ -22,8 +23,16 @@ export const EffectDemo: React.FC<IEffectProps> = ({ value }) => {
     return () => { console.log("unmount"); }
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      setText(x => x + event.key);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => { window.removeEventListener("keydown", handleKeyDown) }
+  }, []);
+
   return (
-    <p>{value}</p>
+    <p>{value}{text}</p>
   );
 }
 
