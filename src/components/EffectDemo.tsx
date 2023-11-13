@@ -7,8 +7,21 @@ interface IEffectProps {
 export const EffectDemo: React.FC<IEffectProps> = ({ value }) => {
   console.log("Redraw");
   useEffect(() => {
-    console.log("Effect1");
+    console.log("always after component redraw");
   });
+
+  useEffect(() => {
+    console.log("mount");
+  }, []);
+
+  useEffect(() => {
+    console.log("mount || dependencies change");
+  }, [value]);
+
+  useEffect(() => {
+    return () => { console.log("unmount"); }
+  }, []);
+
   return (
     <p>{value}</p>
   );
